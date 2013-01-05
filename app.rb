@@ -62,25 +62,9 @@ post '/checkinhandler' do
 
 	puts "user token is #{user_token}"
 
-	# call checkin reply URL
-	EventMachine.run {
-		url = 'https://api.foursquare.com/v2/checkins/' + @checkin['id'] + '/reply?oauth_token=' + user_token + '&text=RESPONSE WITH SPACES'
-		puts "url: #{url}"
-
-		http = EventMachine::HttpRequest.new(url).post
-		http.errback {
-			puts "uh oh"
-			EM.stop
-		}
-		http.callback {
-			res = JSON.parse(http.response)
-			
-			puts "response is " + http.response
-
-			EventMachine.stop
-		}
-	}
-
+	# send checkin reply
+	fsq = Foursquare2::Client.new(:oauth_token => user_token)
+	fsq.add_checkin_reply(checkin['id'], {:text => 'MERRRRR'})
 end
 
 get '/venue/:id' do
