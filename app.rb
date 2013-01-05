@@ -68,11 +68,11 @@ post '/venue/:id/newtip' do
 	thtrs.update({'foursquare_id'=>params[:id]},
 			{'$push' => {'tips' => params[:tip]} })
 	
-	puts thtrs.find().each do |d|
+	thtrs.find({}).each do |d|
 		puts d.to_json
 	end
 
-	"tip posted?"
+	"tip posted"
 end
 
 # LOGIN FLOW
