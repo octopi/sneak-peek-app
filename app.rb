@@ -64,7 +64,7 @@ post '/checkinhandler' do
 
 	# send checkin reply
 	fsq = Foursquare2::Client.new(:oauth_token => user_token)
-	fsq.add_checkin_reply(checkin['id'], {:text => 'MERRRRR'})
+	fsq.add_checkin_reply(@checkin['id'], {:text => 'MERRRRR'})
 end
 
 get '/venue/:id' do
