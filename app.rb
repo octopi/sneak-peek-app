@@ -109,7 +109,14 @@ get '/login_redirect' do
 			EM.stop
 		}
 		http.callback {
-			puts http.response
+			res = JSON.parse(http.response)
+			access_token = res['access_token']
+
+			fsq = Foursquare2::Client.new(:oauth_token => access_token)
+			user = fsq.user('self')
+
+			puts "current user: #{user.inspect}"
+
 			EventMachine.stop
 		}
 	}
