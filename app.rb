@@ -108,4 +108,6 @@ get '/login_redirect' do
 	# puts "current user: #{@user.inspect}"
 
 	# TODO save userID -> access_token mapping
+
+	"merp"
 end
