@@ -7,6 +7,8 @@ require 'net/https'
 require 'erb'
 require 'foursquare2'
 require 'faraday'
+require 'eventmachine'
+require 'em-http-request'
 
 
 MONGOHQ_URL = 'mongodb://vivek:3oEQavrg8TecPm@linus.mongohq.com:10029/app10701352'
