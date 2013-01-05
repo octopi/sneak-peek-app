@@ -78,6 +78,7 @@ end
 # LOGIN FLOW
 
 get '/login' do
+	puts "merrr"
 	erb :login
 end
 
