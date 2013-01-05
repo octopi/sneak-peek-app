@@ -93,7 +93,10 @@ get '/login_redirect' do
 
 	EventMachine.run {
 		# get access token from fsq given code
-		http = EventMachine::HttpRequest.new('https://foursquare.com/oauth2/access_token?client_id=LJEDFWI00IQGGDZL3FKVVZEPSJDJDYDCHOSNWFNIVIVVJMRE&client_secret=5TVKMRWHX4XDRYVT52I1IGP3CFLPCVWMIRFWYED2P1BWBZNP&grant_type=authorization_code&redirect_uri=http://ancient-crag-6996.herokuapp.com/login_redirect&code=' + @code).get
+		token_url = 'https://foursquare.com/oauth2/access_token?client_id=LJEDFWI00IQGGDZL3FKVVZEPSJDJDYDCHOSNWFNIVIVVJMRE&client_secret=5TVKMRWHX4XDRYVT52I1IGP3CFLPCVWMIRFWYED2P1BWBZNP&grant_type=authorization_code&redirect_uri=http://ancient-crag-6996.herokuapp.com/login_redirect&code=' + @code
+		puts "token_url: #{token_url}"
+		
+		http = EventMachine::HttpRequest.new(token_url).get
 		http.errback {
 			puts "uh oh"
 			EM.stop
