@@ -37,7 +37,7 @@ post '/checkinhandler' do
 
 	@categories.each { |category|
 		puts category['shortName']
-		if category['id'] == '4bf58dd8d48988d17f941735'
+		if category['id'] == '4bf58dd8d48988d17f941735' or category['categories']['parents'].include? 'Movie Theaters'
 			puts 'ITS A MOVIE THEATER'
 		end
 	}
