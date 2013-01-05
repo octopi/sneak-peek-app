@@ -7,8 +7,9 @@ get '/' do
 end
 
 post '/checkinhandler' do
-	puts '>>> PRINTING CHECKIN'
-	"params: #{params.inspect}"
+	@venue = params[:checkin]['venue']
+	puts '>>> VENUE CATEORIES'
+	puts @venue['categories']
 end
 
 get '/venue/:id' do
