@@ -24,6 +24,8 @@ post '/checkinhandler' do
 	@checkin = JSON.parse(params[:checkin])
 	@categories = @checkin['venue']['categories']
 
+	puts "categories: #{@categories.inspect}"
+
 	@categories.each { |category|
 		puts category.shortName
 		if category['id'] == '4bf58dd8d48988d17f941735'
