@@ -29,16 +29,56 @@ end
 
 post '/checkinhandler' do
 	@checkin = JSON.parse(params[:checkin])
-	@categories = @checkin['venue']['categories']
+	# @categories = @checkin['venue']['categories']
 
-	puts "======= categories: #{@categories.inspect}"
+	# puts "======= categories: #{@categories.inspect}"
 
-	@categories.each { |category|
-		puts category['shortName']
-		if category['id'] == '4bf58dd8d48988d17f941735' or category['parents'].include? 'Movie Theaters'
-			puts 'ITS A MOVIE THEATER'
-		end
+	# @categories.each { |category|
+	# 	puts category['shortName']
+	# 	if category['id'] == '4bf58dd8d48988d17f941735' or category['parents'].include? 'Movie Theaters'
+			
+	# 		# if it's a theater... set up delay 
+	# 		EventMachine.add_timer(5) do
+	# 			puts "MARRR TIMER"
+	# 		end
+	# 	end
+	# }
+	# r = rand(6)
+	# puts "gonna wait for #{r} seconds..."
+	# EventMachine.run do
+	# 	EventMachine.add_timer(r) do
+	# 		puts "MARRR TIMER"
+	# 		EventMachine.stop
+	# 	end
+	# end
+
+	# call checkin response...
+
+	# find user auth token first from DB
+	db = get_connection
+	users = db.collection('users')
+	u = users.find({'foursquare_id' => @checkin['user']['id']})
+	user_token = u.first['access_token']
+
+	# call checkin reply URL
+	EventMachine.run {
+		url = 'https://api.foursquare.com/v2/checkins/' + @checkin['id'] + '/reply?oauth_token=' + user_token + '&text=RESPONSE WITH SPACES'
+		puts "url: #{url}"
+
+		http = EventMachine::HttpRequest.new(url).get
+		http.errback {
+			puts "uh oh"
+			EM.stop
+		}
+		http.callback {
+			res = JSON.parse(http.response)
+			
+			puts "response is " + http.response
+
+			EventMachine.stop
+		}
 	}
+
 end
 
 get '/venue/:id' do
