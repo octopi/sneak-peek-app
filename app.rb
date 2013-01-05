@@ -8,6 +8,7 @@ require 'erb'
 require 'foursquare2'
 require 'faraday'
 
+
 MONGOHQ_URL = 'mongodb://vivek:3oEQavrg8TecPm@linus.mongohq.com:10029/app10701352'
 
 def get_connection
@@ -96,8 +97,20 @@ get '/login_redirect' do
 
 	# @response = @http.request(@request)
 
-	@conn = Faraday.new 'https://foursquare.com'
-	@response = @conn.get("/oauth2/access_token?client_id=LJEDFWI00IQGGDZL3FKVVZEPSJDJDYDCHOSNWFNIVIVVJMRE&client_secret=5TVKMRWHX4XDRYVT52I1IGP3CFLPCVWMIRFWYED2P1BWBZNP&grant_type=authorization_code&redirect_uri=http://ancient-crag-6996.herokuapp.com/login_redirect&code=" + @code)
+	# @conn = Faraday.new 'https://foursquare.com'
+	# @response = @conn.get("/oauth2/access_token?client_id=LJEDFWI00IQGGDZL3FKVVZEPSJDJDYDCHOSNWFNIVIVVJMRE&client_secret=5TVKMRWHX4XDRYVT52I1IGP3CFLPCVWMIRFWYED2P1BWBZNP&grant_type=authorization_code&redirect_uri=http://ancient-crag-6996.herokuapp.com/login_redirect&code=" + @code)
+
+	EventMachine.run {
+		http = EventMachine::HttpRequest.new('https://foursquare.com/oauth2/access_token').get
+		http.errback {
+			puts "uh oh"
+			EM.stop
+		}
+		http.callback {
+			puts http.response
+			EventMachine.stop
+		}
+	}
 
 	# TODO: save user and auth code
 	# @access_token = JSON.parse(@response.body)
