@@ -21,11 +21,10 @@ get '/' do
 end
 
 post '/checkinhandler' do
-	@venue = params[:checkin]['venue']
-	@checkinparam = params[:checkin]
-	
+	@checkin = JSON.parse(params[:checkin])
+	@categories = @checkin['venue']['categories']
 
-	puts "venue: #{@venue.inspect}"
+	puts "venue: #{@categories.inspect}"
 	puts '>>> VENUE CATEORIES'
 	puts @venue['categories']
 end
