@@ -7,8 +7,6 @@ get '/' do
 end
 
 post '/checkinhandler' do
-	puts '>>> PRINTING CHECKIN'
-	puts params[:checkin]
 	'end of checkin handler'
 end
 
