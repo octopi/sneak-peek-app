@@ -94,7 +94,6 @@ get '/login_redirect' do
 	@request = Net::HTTP::Get.new(@uri.request_uri)
 
 	@response = @http.request(@request)
-	puts "response body: #{@response.body}"
 
 	# TODO: save user and auth code
 	@access_token = JSON.parse(@response.body)
