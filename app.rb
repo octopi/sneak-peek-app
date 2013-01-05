@@ -8,7 +8,7 @@ end
 
 post '/checkinhandler' do
 	puts '>>> PRINTING CHECKIN'
-	'end of checkin handler'
+	"params: #{params.inspect}"
 end
 
 get '/venue/:id' do
