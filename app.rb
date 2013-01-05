@@ -32,16 +32,9 @@ end
 get '/venue/:id' do
 	db = get_connection
  
-	puts "Collections"
-	puts "==========="
-	collections = db.collection_names
-	puts collections
-
 	thtrs = db.collection('theaters')
-	puts thtrs
-
 	output = ''
-	docs = thtrs.find({'foursquare_id'=>'-1'})
+	docs = thtrs.find({'foursquare_id'=>params[:id]})
 	docs.each do |d|
 		output += d['name'] + "<br />"
 		d['tips'].each do |tip|
@@ -54,4 +47,7 @@ end
 
 get '/venue/:id/newtip' do
 	'submitting new tip'
+end
+
+post '/venue/:id/newtip' do
 end
