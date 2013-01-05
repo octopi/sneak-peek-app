@@ -6,6 +6,7 @@ require 'json'
 require 'net/https'
 require 'erb'
 require 'foursquare2'
+require 'faraday'
 
 MONGOHQ_URL = 'mongodb://vivek:3oEQavrg8TecPm@linus.mongohq.com:10029/app10701352'
 
@@ -86,14 +87,17 @@ end
 get '/login_redirect' do
 	#shitton of work to get access_token for authorized user
 	@code = params['code']
-	@uri = URI.parse("https://foursquare.com/oauth2/access_token?client_id=LJEDFWI00IQGGDZL3FKVVZEPSJDJDYDCHOSNWFNIVIVVJMRE&client_secret=5TVKMRWHX4XDRYVT52I1IGP3CFLPCVWMIRFWYED2P1BWBZNP&grant_type=authorization_code&redirect_uri=http://ancient-crag-6996.herokuapp.com/login_redirect&code=" + @code)
-	@http = Net::HTTP.new(@uri.host, @uri.port)
-	@http.use_ssl = true
-	@http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+	# @uri = URI.parse("https://foursquare.com/oauth2/access_token?client_id=LJEDFWI00IQGGDZL3FKVVZEPSJDJDYDCHOSNWFNIVIVVJMRE&client_secret=5TVKMRWHX4XDRYVT52I1IGP3CFLPCVWMIRFWYED2P1BWBZNP&grant_type=authorization_code&redirect_uri=http://ancient-crag-6996.herokuapp.com/login_redirect&code=" + @code)
+	# @http = Net::HTTP.new(@uri.host, @uri.port)
+	# @http.use_ssl = true
+	# @http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
-	@request = Net::HTTP::Get.new(@uri.request_uri)
+	# @request = Net::HTTP::Get.new(@uri.request_uri)
 
-	@response = @http.request(@request)
+	# @response = @http.request(@request)
+
+	@conn = Faraday.new 'https://foursquare.com'
+	@response = @conn.get("/oauth2/access_token?client_id=LJEDFWI00IQGGDZL3FKVVZEPSJDJDYDCHOSNWFNIVIVVJMRE&client_secret=5TVKMRWHX4XDRYVT52I1IGP3CFLPCVWMIRFWYED2P1BWBZNP&grant_type=authorization_code&redirect_uri=http://ancient-crag-6996.herokuapp.com/login_redirect&code=" + @code)
 
 	# TODO: save user and auth code
 	@access_token = JSON.parse(@response.body)
