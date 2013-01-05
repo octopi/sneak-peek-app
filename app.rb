@@ -27,7 +27,7 @@ post '/checkinhandler' do
 	puts "categories: #{@categories.inspect}"
 
 	@categories.each { |category|
-		puts category.shortName
+		puts category['shortName']
 		if category['id'] == '4bf58dd8d48988d17f941735'
 			puts 'ITS A MOVIE THEATER'
 		end
