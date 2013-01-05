@@ -2,13 +2,12 @@ require 'rubygems'
 require 'sinatra'
 
 get '/' do
-	puts 'something here'
+	puts "HI LOGGIN"
 	'sup'
 end
 
 post '/checkinhandler' do
 	puts '>>> PRINTING CHECKIN'
-	puts params[:checkin]
 	'end of checkin handler'
 end
 
