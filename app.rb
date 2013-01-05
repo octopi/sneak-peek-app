@@ -67,7 +67,7 @@ post '/checkinhandler' do
 		url = 'https://api.foursquare.com/v2/checkins/' + @checkin['id'] + '/reply?oauth_token=' + user_token + '&text=RESPONSE WITH SPACES'
 		puts "url: #{url}"
 
-		http = EventMachine::HttpRequest.new(url).get
+		http = EventMachine::HttpRequest.new(url).post
 		http.errback {
 			puts "uh oh"
 			EM.stop
