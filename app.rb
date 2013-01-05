@@ -63,23 +63,23 @@ post '/checkinhandler' do
 	puts "user token is #{user_token}"
 
 	# call checkin reply URL
-	# EventMachine.run {
-	# 	url = 'https://api.foursquare.com/v2/checkins/' + @checkin['id'] + '/reply?oauth_token=' + user_token + '&text=RESPONSE WITH SPACES'
-	# 	puts "url: #{url}"
+	EventMachine.run {
+		url = 'https://api.foursquare.com/v2/checkins/' + @checkin['id'] + '/reply?oauth_token=' + user_token + '&text=RESPONSE WITH SPACES'
+		puts "url: #{url}"
 
-	# 	http = EventMachine::HttpRequest.new(url).get
-	# 	http.errback {
-	# 		puts "uh oh"
-	# 		EM.stop
-	# 	}
-	# 	http.callback {
-	# 		res = JSON.parse(http.response)
+		http = EventMachine::HttpRequest.new(url).get
+		http.errback {
+			puts "uh oh"
+			EM.stop
+		}
+		http.callback {
+			res = JSON.parse(http.response)
 			
-	# 		puts "response is " + http.response
+			puts "response is " + http.response
 
-	# 		EventMachine.stop
-	# 	}
-	# }
+			EventMachine.stop
+		}
+	}
 
 end
 
