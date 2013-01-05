@@ -31,18 +31,14 @@ post '/checkinhandler' do
 	@checkin = JSON.parse(params[:checkin])
 	@categories = @checkin['venue']['categories']
 
-	puts "checkin is: "+params[:checkin]
-
-	# puts "categories: #{@categories.inspect}"
+	puts "======= categories: #{@categories.inspect}"
 
 	@categories.each { |category|
 		puts category['shortName']
-		if category['id'] == '4bf58dd8d48988d17f941735' or category['categories']['parents'].include? 'Movie Theaters'
+		if category['id'] == '4bf58dd8d48988d17f941735' or category['parents'].include? 'Movie Theaters'
 			puts 'ITS A MOVIE THEATER'
 		end
 	}
-	
-	puts '>>> VENUE CATEORIES'
 end
 
 get '/venue/:id' do
