@@ -115,7 +115,7 @@ get '/login_redirect' do
 			fsq = Foursquare2::Client.new(:oauth_token => access_token)
 			user = fsq.user('self')
 
-			puts "current user: #{user.inspect}"
+			puts "current user: #{user.id}"
 
 			EventMachine.stop
 		}
