@@ -90,19 +90,9 @@ end
 get '/login_redirect' do
 	#shitton of work to get access_token for authorized user
 	@code = params['code']
-	# @uri = URI.parse("https://foursquare.com/oauth2/access_token?client_id=LJEDFWI00IQGGDZL3FKVVZEPSJDJDYDCHOSNWFNIVIVVJMRE&client_secret=5TVKMRWHX4XDRYVT52I1IGP3CFLPCVWMIRFWYED2P1BWBZNP&grant_type=authorization_code&redirect_uri=http://ancient-crag-6996.herokuapp.com/login_redirect&code=" + @code)
-	# @http = Net::HTTP.new(@uri.host, @uri.port)
-	# @http.use_ssl = true
-	# @http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-
-	# @request = Net::HTTP::Get.new(@uri.request_uri)
-
-	# @response = @http.request(@request)
-
-	# @conn = Faraday.new 'https://foursquare.com'
-	# @response = @conn.get("/oauth2/access_token?client_id=LJEDFWI00IQGGDZL3FKVVZEPSJDJDYDCHOSNWFNIVIVVJMRE&client_secret=5TVKMRWHX4XDRYVT52I1IGP3CFLPCVWMIRFWYED2P1BWBZNP&grant_type=authorization_code&redirect_uri=http://ancient-crag-6996.herokuapp.com/login_redirect&code=" + @code)
 
 	EventMachine.run {
+		# get access token from fsq given code
 		http = EventMachine::HttpRequest.new('https://foursquare.com/oauth2/access_token?client_id=LJEDFWI00IQGGDZL3FKVVZEPSJDJDYDCHOSNWFNIVIVVJMRE&client_secret=5TVKMRWHX4XDRYVT52I1IGP3CFLPCVWMIRFWYED2P1BWBZNP&grant_type=authorization_code&redirect_uri=http://ancient-crag-6996.herokuapp.com/login_redirect&code=' + @code).get
 		http.errback {
 			puts "uh oh"
@@ -117,19 +107,14 @@ get '/login_redirect' do
 
 			puts "current user: #{user.id}"
 
+			# save fsqid -> access_token mapping
+			db = get_connection
+			users = db.collection('users')
+			users.save({'foursquare_id' => user.id, 
+				'access_token' => access_token})
+
 			EventMachine.stop
 		}
 	}
-
-	# TODO: save user and auth code
-	# @access_token = JSON.parse(@response.body)
-
-	# @fsq = Foursquare2::Client.new(:oauth_token => @access_token)
-	# @user = @fsq.user('self') # finally have this user
-
-	# puts "current user: #{@user.inspect}"
-
-	# TODO save userID -> access_token mapping
-
 	"merp"
 end
