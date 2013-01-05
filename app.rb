@@ -3,6 +3,7 @@ require 'sinatra'
 require 'mongo'
 require 'uri'
 require 'json'
+require 'net/https'
 
 MONGOHQ_URL = 'mongodb://vivek:3oEQavrg8TecPm@linus.mongohq.com:10029/app10701352'
 
@@ -57,4 +58,20 @@ get '/venue/:id/newtip' do
 end
 
 post '/venue/:id/newtip' do
+end
+
+# LOGIN FLOW
+get '/login_redirect' do
+	@code = params['code']
+	@uri = URI.parse("https://foursquare.com/oauth2/access_token?client_id=LJEDFWI00IQGGDZL3FKVVZEPSJDJDYDCHOSNWFNIVIVVJMRE&client_secret=5TVKMRWHX4XDRYVT52I1IGP3CFLPCVWMIRFWYED2P1BWBZNP&grant_type=authorization_code&redirect_uri=http://ancient-crag-6996.herokuapp.com/login_redirect&code=" + @code)
+	@http = Net::HTTP.new(@uri.host, @uri.port)
+	@http.use_ssl = true
+	@http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+
+	@request = Net::HTTP::Get.new(uri.request_uri)
+
+	@response = @http.request(@request)
+	puts "response body: #{@response.body}"
+
+	# TODO: save user and auth code
 end
