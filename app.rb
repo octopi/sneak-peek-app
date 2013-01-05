@@ -3,6 +3,7 @@ require 'sinatra'
 require 'mongo'
 require 'uri'
 require 'json'
+require 'erb'
 
 MONGOHQ_URL = 'mongodb://vivek:3oEQavrg8TecPm@linus.mongohq.com:10029/app10701352'
 
@@ -53,8 +54,22 @@ get '/venue/:id' do
 end
 
 get '/venue/:id/newtip' do
-	'submitting new tip'
+	puts 'submitting new tip'
+
+	erb :newtip, :locals => {:id => params[:id]}
 end
 
 post '/venue/:id/newtip' do
+	puts params.inspect
+
+	db = get_connection
+	thtrs = db.collection('theaters')
+	thtrs.update({'foursquare_id'=>params[:id]},
+			{'$push' => {'tips' => params[:tip]} })
+	
+	puts thtrs.find().each do |d|
+		puts d.to_json
+	end
+
+	"tip posted?"
 end
