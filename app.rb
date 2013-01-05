@@ -5,6 +5,7 @@ require 'uri'
 require 'json'
 require 'net/https'
 require 'erb'
+require 'foursquare2'
 
 MONGOHQ_URL = 'mongodb://vivek:3oEQavrg8TecPm@linus.mongohq.com:10029/app10701352'
 
@@ -83,6 +84,7 @@ get '/login' do
 end
 
 get '/login_redirect' do
+	#shitton of work to get access_token for authorized user
 	@code = params['code']
 	@uri = URI.parse("https://foursquare.com/oauth2/access_token?client_id=LJEDFWI00IQGGDZL3FKVVZEPSJDJDYDCHOSNWFNIVIVVJMRE&client_secret=5TVKMRWHX4XDRYVT52I1IGP3CFLPCVWMIRFWYED2P1BWBZNP&grant_type=authorization_code&redirect_uri=http://ancient-crag-6996.herokuapp.com/login_redirect&code=" + @code)
 	@http = Net::HTTP.new(@uri.host, @uri.port)
@@ -95,4 +97,12 @@ get '/login_redirect' do
 	puts "response body: #{@response.body}"
 
 	# TODO: save user and auth code
+	@access_token = JSON.parse(@response.body)
+
+	@fsq = Foursquare2::Client.new(:oauth_token => @access_token)
+	@user = @fsq.user('self') # finally have this user
+
+	puts "current user: #{@user.inspect}"
+
+	# TODO save userID -> access_token mapping
 end
