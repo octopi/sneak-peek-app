@@ -100,12 +100,12 @@ get '/login_redirect' do
 	@response = @conn.get("/oauth2/access_token?client_id=LJEDFWI00IQGGDZL3FKVVZEPSJDJDYDCHOSNWFNIVIVVJMRE&client_secret=5TVKMRWHX4XDRYVT52I1IGP3CFLPCVWMIRFWYED2P1BWBZNP&grant_type=authorization_code&redirect_uri=http://ancient-crag-6996.herokuapp.com/login_redirect&code=" + @code)
 
 	# TODO: save user and auth code
-	@access_token = JSON.parse(@response.body)
+	# @access_token = JSON.parse(@response.body)
 
-	@fsq = Foursquare2::Client.new(:oauth_token => @access_token)
-	@user = @fsq.user('self') # finally have this user
+	# @fsq = Foursquare2::Client.new(:oauth_token => @access_token)
+	# @user = @fsq.user('self') # finally have this user
 
-	puts "current user: #{@user.inspect}"
+	# puts "current user: #{@user.inspect}"
 
 	# TODO save userID -> access_token mapping
 end
