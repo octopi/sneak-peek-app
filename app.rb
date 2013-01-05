@@ -8,6 +8,9 @@ end
 
 post '/checkinhandler' do
 	@venue = params[:checkin]['venue']
+	@checkinparam = params[:checkin]
+	puts "param: #{@checkinparam.inspect}"
+
 	puts "venue: #{@venue.inspect}"
 	puts '>>> VENUE CATEORIES'
 	puts @venue['categories']
