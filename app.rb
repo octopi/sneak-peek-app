@@ -96,8 +96,8 @@ get '/login_redirect' do
 
 	# @response = @http.request(@request)
 
-	@conn = Faraday.new 'https://foursquare.com'
-	@response = @conn.get("/oauth2/access_token?client_id=LJEDFWI00IQGGDZL3FKVVZEPSJDJDYDCHOSNWFNIVIVVJMRE&client_secret=5TVKMRWHX4XDRYVT52I1IGP3CFLPCVWMIRFWYED2P1BWBZNP&grant_type=authorization_code&redirect_uri=http://ancient-crag-6996.herokuapp.com/login_redirect&code=" + @code)
+	# @conn = Faraday.new 'https://foursquare.com'
+	# @response = @conn.get("/oauth2/access_token?client_id=LJEDFWI00IQGGDZL3FKVVZEPSJDJDYDCHOSNWFNIVIVVJMRE&client_secret=5TVKMRWHX4XDRYVT52I1IGP3CFLPCVWMIRFWYED2P1BWBZNP&grant_type=authorization_code&redirect_uri=http://ancient-crag-6996.herokuapp.com/login_redirect&code=" + @code)
 
 	# TODO: save user and auth code
 	# @access_token = JSON.parse(@response.body)
