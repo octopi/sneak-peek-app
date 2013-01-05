@@ -29,49 +29,40 @@ end
 
 post '/checkinhandler' do
 	@checkin = JSON.parse(params[:checkin])
-	# @categories = @checkin['venue']['categories']
+	@categories = @checkin['venue']['categories']
 
-	# puts "======= categories: #{@categories.inspect}"
+	puts "======= categories: #{@categories.inspect}"
 
-	# @categories.each { |category|
-	# 	puts category['shortName']
-	# 	if category['id'] == '4bf58dd8d48988d17f941735' or category['parents'].include? 'Movie Theaters'
+	@categories.each { |category|
+		puts category['shortName']
+		if category['id'] == '4bf58dd8d48988d17f941735' or category['parents'].include? 'Movie Theaters'
 			
-	# 		# if it's a theater... set up delay 
-	# 		EventMachine.add_timer(5) do
-	# 			puts "MARRR TIMER"
-	# 		end
-	# 	end
-	# }
-	# r = rand(6)
-	# puts "gonna wait for #{r} seconds..."
-	# EventMachine.run do
-	# 	EventMachine.add_timer(r) do
-	# 		puts "MARRR TIMER"
-	# 		EventMachine.stop
-	# 	end
-	# end
+			# call checkin response...
 
-	# call checkin response...
+			# find user auth token first from DB
+			db = get_connection
+			users = db.collection('users')
+			u = users.find({'foursquare_id' => @checkin['user']['id']})
+			user_token = u.first['access_token']
 
-	# find user auth token first from DB
-	db = get_connection
-	users = db.collection('users')
-	u = users.find({'foursquare_id' => @checkin['user']['id']})
-	user_token = u.first['access_token']
+			puts "user token is #{user_token}"
 
-	puts "user token is #{user_token}"
+			# send checkin reply
+			EventMachine.run do
+				puts '>>>> STARTING 15 SEC DELAY'
+				EventMachine.add_timer(15) do
+					puts '<<<< SENDING'
+					fsq = Foursquare2::Client.new(:oauth_token => user_token)
+					fsq.add_checkin_reply(@checkin['id'], {:text => 'MERRRRR'})
 
-	# send checkin reply
-	EventMachine.run do
-		puts '>>>> STARTING 15 SEC DELAY'
-		EventMachine.add_timer(15) do
-			fsq = Foursquare2::Client.new(:oauth_token => user_token)
-			fsq.add_checkin_reply(@checkin['id'], {:text => 'MERRRRR'})
-
-			EventMachine.stop
+					EventMachine.stop
+				end
+			end
+			break
 		end
-	end
+	}
+
+
 end
 
 get '/venue/:id' do
