@@ -31,7 +31,6 @@ post '/checkinhandler' do
 	@checkin = JSON.parse(params[:checkin])
 	@categories = @checkin['venue']['categories']
 
-	puts "======= categories: #{@categories.inspect}"
 	puts "======= checkin: #{params[:checkin]}"
 
 	@categories.each { |category|
@@ -46,10 +45,10 @@ post '/checkinhandler' do
 			u = users.find({'foursquare_id' => @checkin['user']['id']})
 			user_token = u.first['access_token']
 
-			puts "user token is #{user_token}, movie is #{@checkin['event']['foreignIds']['name']}"
+			puts "user token is #{user_token}, movie is #{@checkin['event']['name']}"
 
-			delay = get_movie_runtime(@checkin['event']['foreignIds']['name'])
-			puts 'DELAY FOR '+@checkin['event']['foreignIds']['name']+' IS: '+delay
+			delay = get_movie_runtime(@checkin['event']['name'])
+			puts 'DELAY FOR '+@checkin['event']['name']+' IS: '+delay
 			# send checkin reply
 			EventMachine.run do
 				puts '>>>> STARTING 15 SEC DELAY'
