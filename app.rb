@@ -53,7 +53,7 @@ post '/checkinhandler' do
 				EventMachine.add_timer(15) do
 					puts '<<<< SENDING'
 					fsq = Foursquare2::Client.new(:oauth_token => user_token)
-					fsq.add_checkin_reply(@checkin['id'], {:text => 'Movie\'s over? Sneak into another one playing at '+@checkin['venue']['name'] + '!'})
+					fsq.add_checkin_reply(@checkin['id'], {:text => 'Movie\'s over? Sneak into another one playing at '+@checkin['venue']['name'] + '!', :url => 'http://ancient-crag-6996.herokuapp.com/venue/' + @checkin['venue']['id'] + '/sneak'})
 
 					EventMachine.stop
 				end
