@@ -48,7 +48,7 @@ post '/checkinhandler' do
 			puts "user token is #{user_token}, movie is #{@checkin['event']['name']}"
 
 			delay = get_movie_runtime(@checkin['event']['name'])
-			puts 'DELAY FOR '+@checkin['event']['name']+' IS: '+delay
+			puts 'DELAY FOR '+@checkin['event']['name']+' IS: '+delay.to_s
 			# send checkin reply
 			EventMachine.run do
 				puts '>>>> STARTING 15 SEC DELAY'
