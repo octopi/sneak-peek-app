@@ -23,8 +23,7 @@ def get_connection
 end
 
 get '/' do
-	puts "HI LOGGIN"
-	'sup'
+	erb :index
 end
 
 post '/checkinhandler' do
@@ -109,11 +108,6 @@ get '/venue/:id/sneak' do
 end
 
 # LOGIN FLOW
-
-get '/login' do
-	puts "merrr"
-	erb :login
-end
 
 get '/login_redirect' do
 	#shitton of work to get access_token for authorized user
