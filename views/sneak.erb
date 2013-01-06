@@ -39,6 +39,10 @@
 		height:290px;
 	}
 
+	#rest .movie {
+		margin-top:-30px;
+	}
+
 	.movie-img {
 		float:left;
 		margin-top:50px;
@@ -60,14 +64,16 @@
 	</div>
 	<div id="rest">
 		<%
+		z = -1
 		movie_list.each do |m| %>
-			<div class="movie">
+			<div class="movie" style="z-index:<%= z %>;">
 				<img class="movie-img" src="../../poster.png" />
 				<div class="movie-desc">
 					<h2 class="movie-title"><%= m %></h2>
 				</div>
 			</div>
-		<% end %>
+		<% z = z-1
+		end %>
 	</div>
 </body>
 </html>
