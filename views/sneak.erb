@@ -59,12 +59,15 @@
 		<img src="../../arrow.png" />
 	</div>
 	<div id="rest">
-		<div class="movie">
-			<img class="movie-img" src="../../poster.png" />
-			<div class="movie-desc">
-				<h2 class="movie-title">Django Unchained</h2>
+		<%
+		movie_list.each do |m| %>
+			<div class="movie">
+				<img class="movie-img" src="../../poster.png" />
+				<div class="movie-desc">
+					<h2 class="movie-title"><%= m %></h2>
+				</div>
 			</div>
-		</div>
+		<% end %>
 	</div>
 </body>
 </html>
