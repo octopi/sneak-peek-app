@@ -9,6 +9,7 @@ require 'foursquare2'
 require 'faraday'
 require 'eventmachine'
 require 'em-http-request'
+require 'nokogiri'
 
 
 MONGOHQ_URL = 'mongodb://vivek:3oEQavrg8TecPm@linus.mongohq.com:10029/app10701352'
@@ -64,7 +65,7 @@ post '/checkinhandler' do
 
 end
 
-get '/venue/:id' do
+get '/venue/:id/tips' do
 	db = get_connection
  
 	thtrs = db.collection('theaters')
@@ -142,4 +143,26 @@ get '/login_redirect' do
 		}
 	}
 	"merp"
+end
+
+def get_theater_id(zipcode)
+	EventMachine.run {
+		http = EventMachine::HttpRequest.new("http://gateway.moviefone.com/movies/atom/closesttheaters.xml?zip=#{zipcode}").get
+		http.errback {
+			puts "fack!!"
+			EM.stop
+		}
+		http.callback {
+			res = Nokogiri::XML.parse(http.response)
+			puts res.inspect
+			puts res.children.inspect
+			puts res.children.children.inspect
+
+			EventMachine.stop
+		}
+	}
+end
+
+get '/theaters/' do
+	get_theater_id('10013')
 end
