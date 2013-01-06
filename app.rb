@@ -45,7 +45,7 @@ post '/checkinhandler' do
 			u = users.find({'foursquare_id' => @checkin['user']['id']})
 			user_token = u.first['access_token']
 
-			puts "user token is #{user_token}"
+			puts "user token is #{user_token}, movie is #{@checkin['event']['foreignIds']['name']}"
 
 			delay = get_movie_runtime(@checkin['event']['foreignIds']['name'])
 			puts 'DELAY FOR '+@checkin['event']['foreignIds']['name']+' IS: '+delay
