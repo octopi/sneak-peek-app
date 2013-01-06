@@ -103,6 +103,8 @@ post '/venue/:id/newtip' do
 end
 
 get '/venue/:id/sneak' do
+	@id = params[:id]
+
 	erb :sneak
 end
 

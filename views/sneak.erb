@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<style>
+	body {
+		font-family:Helvetica, Arial, sans-serif;
+		color:#fff;
+		text-shadow: #333 2px 2px 5px;
+		margin:0;
+		padding:0;
+		font-size:22px;
+	}
+
+	a {
+		text-decoration: none;
+	}
+
+	#top {
+		text-align: center;
+		position:relative;
+		z-index:1;
+		width:100%;
+	}
+
+	.theater-title {
+		color:#f00;
+	}
+
+	#rest {
+		position:relative;
+		width:100%;
+		z-index:0;
+		margin-top:-35px;
+	}
+
+	.movie {
+		background: url('../../bg.png');
+		height:290px;
+	}
+
+	.movie-img {
+		float:left;
+		margin-top:50px;
+		margin-left:20px;
+	}
+
+	.movie-desc {
+		margin-left:200px;
+		padding-top:100px;
+		font-size:28px;
+	}
+</style>
+<body>
+	<div id="top" class="movie">
+		<img src="../../logo.png" style="height:80px" />
+		<h2 class="theater-title">AMC Empire 25</h2>
+		<p>Shows Starting Now or Playing Shortly</p>
+		<img src="../../arrow.png" />
+	</div>
+	<div id="rest">
+		<div class="movie">
+			<img class="movie-img" src="../../poster.png" />
+			<div class="movie-desc">
+				<h2 class="movie-title">Django</h2>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
