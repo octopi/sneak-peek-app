@@ -66,7 +66,7 @@ post '/checkinhandler' do
 
 end
 
-get '/venue/:id' do
+get '/venue/:id/tips' do
 	db = get_connection
  
 	thtrs = db.collection('theaters')
