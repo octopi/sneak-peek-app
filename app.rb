@@ -105,7 +105,29 @@ end
 get '/venue/:id/sneak' do
 	@id = params[:id]
 
-	erb :sneak
+	#fsq = Foursquare2::Client.new({:client_id => 'LJEDFWI00IQGGDZL3FKVVZEPSJDJDYDCHOSNWFNIVIVVJMRE', :client_secret => '5TVKMRWHX4XDRYVT52I1IGP3CFLPCVWMIRFWYED2P1BWBZNP'})
+	#venue = fsq.venue(params[:id])
+	#puts venue
+	#venue
+	movie_list = []
+	url = "https://api.foursquare.com/v2/venues/#{params[:id]}/events?client_id=LJEDFWI00IQGGDZL3FKVVZEPSJDJDYDCHOSNWFNIVIVVJMRE&client_secret=5TVKMRWHX4XDRYVT52I1IGP3CFLPCVWMIRFWYED2P1BWBZNP&v=20130105"
+	EventMachine.run {
+		http = EventMachine::HttpRequest.new(url).get
+		http.errback {
+			puts "fack!"
+			EM.stop
+		}
+		http.callback {
+			events = JSON.parse(http.response)
+			items = events['response']['events']['items']
+			items.each do |i| 
+				movie_list << i['name']
+			end	
+			EventMachine.stop
+		}
+	}
+	movie_list
+	erb :sneak, :locals => {:movie_list => movie_list}
 end
 
 # LOGIN FLOW
