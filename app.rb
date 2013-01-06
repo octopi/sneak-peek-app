@@ -9,7 +9,6 @@ require 'foursquare2'
 require 'faraday'
 require 'eventmachine'
 require 'em-http-request'
-require 'nokogiri'
 
 
 MONGOHQ_URL = 'mongodb://vivek:3oEQavrg8TecPm@linus.mongohq.com:10029/app10701352'
