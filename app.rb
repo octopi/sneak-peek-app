@@ -9,6 +9,7 @@ require 'foursquare2'
 require 'faraday'
 require 'eventmachine'
 require 'em-http-request'
+require 'badfruit'
 
 
 MONGOHQ_URL = 'mongodb://vivek:3oEQavrg8TecPm@linus.mongohq.com:10029/app10701352'
@@ -46,6 +47,8 @@ post '/checkinhandler' do
 
 			puts "user token is #{user_token}"
 
+			delay = get_movie_runtime(@checkin['event']['foreignIds']['name'])
+			puts 'DELAY FOR '+@checkin['event']['foreignIds']['name']+' IS: '+delay
 			# send checkin reply
 			EventMachine.run do
 				puts '>>>> STARTING 15 SEC DELAY'
@@ -181,6 +184,13 @@ def get_theater_id(zipcode)
 			EventMachine.stop
 		}
 	}
+end
+
+def get_movie_runtime(moviename)
+	# use RT gem
+	bf = BadFruit.new('5273hxpmvqqckp64c8q4uws2')
+	movie = bf.movies.search_by_name(moviename)[0]
+	movie.runtime
 end
 
 get '/theaters/' do
