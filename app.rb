@@ -32,6 +32,7 @@ post '/checkinhandler' do
 	@categories = @checkin['venue']['categories']
 
 	puts "======= categories: #{@categories.inspect}"
+	puts "======= checkin: #{params[:checkin]}"
 
 	@categories.each { |category|
 		puts category['shortName']
